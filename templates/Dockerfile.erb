@@ -1,0 +1,35 @@
+FROM phusion/passenger-ruby22:0.9.15
+
+# Set correct environment variables.
+ENV HOME /root
+
+# Use baseimage-docker's init process.
+CMD ["/sbin/my_init"]
+
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Active nginx
+RUN rm -f /etc/service/nginx/down
+
+# Copy the nginx template for configuration and preserve environment variables
+RUN rm /etc/nginx/sites-enabled/default
+ADD conf/<%= @name %>.conf /etc/nginx/sites-enabled/<%= @name %>.conf
+ADD conf/env.conf /etc/nginx/main.d/env.conf
+
+# Create the folder for the project and set the workdir
+RUN mkdir /home/app/<%= @name %>
+WORKDIR /home/app/<%= @name %>
+
+# Copy the project inside the container and run bundle install
+COPY Gemfile /home/app/<%= @name %>/
+COPY Gemfile.lock /home/app/<%= @name %>/
+RUN bundle install
+COPY . /home/app/<%= @name %>
+
+# Set permissions for the passenger user for this app
+RUN chown -R app:app /home/app/<%= @name %>
+
+# Expose the port
+EXPOSE 80

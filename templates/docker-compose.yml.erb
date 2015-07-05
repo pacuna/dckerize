@@ -1,0 +1,26 @@
+data:
+  image: mysql:5.7
+  name: <%= @name %>-data
+  environment:
+    - MYSQL_ROOT_PASSWORD=secretpassword
+  volumes:
+    - /var/lib/mysql
+  command: true
+mysql:
+  image: mysql:5.7
+  name: <%= @name %>-db
+  environment:
+    - MYSQL_ROOT_PASSWORD=secretpassword
+  volumes_from:
+    - data
+webapp:
+  build: .
+  name: <%= @name %>
+  ports:
+    - "80:80"
+  environment:
+    - PASSENGER_APP_ENV=development
+  links:
+    - mysql:mysql
+  volumes:
+    - /<%= @name %>:/home/app/<%= @name %>

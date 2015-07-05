@@ -1,0 +1,25 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box     = "trusty"
+  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
+  end
+  
+  config.vm.synced_folder "../", "/<%= @name %>", :mount_options => ["uid=9999,gid=9999"]
+
+  config.vm.network :private_network, ip: "192.168.50.4"
+
+  config.vm.provision :shell, :inline => 'apt-get update'
+  config.vm.provision :shell, path: "docker-compose-installer.sh"
+
+  config.vm.provision "docker" do |d|
+    d.pull_images "mysql:5.7"
+    d.pull_images "phusion/passenger-ruby22:0.9.15"
+  end
+
+
+end

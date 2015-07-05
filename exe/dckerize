@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require "dckerize"
+
+if ARGV[0].to_s != '' && ARGV[0] == 'up'
+  unless ARGV[1].to_s != ''
+    puts "A name for the application must be provided"
+    exit 0
+  end
+  name = ARGV[1]
+  generator = Dckerize::Generator.new(name)
+  generator.up
+else
+  puts "You should run 'dckrize up APP_NAME'"
+end
+
