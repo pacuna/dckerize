@@ -4,16 +4,15 @@ Supercharged Rails development using Docker and Vagrant
 
 ## Description
 
-This gem gives you a good starting point for developing your Rails application using container managed by Docker
+This gem gives you a good starting point for developing your Rails application using containers managed by Docker
 inside of a VM manage by Vagrant.
 
 You'll get;
 
-- An ubuntu trusty image already provisioned with Docker and Docker compose.
-- An nginx+passenger container environment for serving your application and all the neccesary configuration.
+- An ubuntu trusty image already provisioned with Docker and Docker Compose.
+- An nginx/passenger container environment for serving your application and all the neccesary configuration.
 - A separated container running MySQL for your DB.
 - A separated container for persisting your data using the data-only container pattern.
-
 
 ## Requirements
 
@@ -27,7 +26,8 @@ You'll get;
 ## Usage
 
 You need to have a Rails application already created.
-Then, in the root of your application run:
+
+In the root of your application run:
 
     $ dckerize up APP_NAME
 
@@ -37,16 +37,16 @@ Where APP_NAME should be the same name of our application directory.
 
 Dckerize will generate:
 
-- A Vagrant folder, which contains a Vagrantfile and a docker-compose bash script for provisioning.
-- A conf folder containing an nginx configuration for your site and an environment definition file for passing
-the neccessary environment variables to passenger. Any extra environment variables passed to your rails application
+- A Vagrant folder, which contains a Vagrantfile and a docker-compose-installer bash script for provisioning.
+- A conf folder containing an nginx configuration file for your site and an environment definition file for passing
+the necessary environment variables to passenger. Any extra environment variables passed to your Rails application
 should be declared in this file.
 - A Dockerfile for building your application.
-- A docker-compose.yml file for lifting your entire enviroment
+- A docker-compose.yml file for lifting your entire enviroment inside the VM.
 
 ### DB configuration
 
-Righ now only MySQL is supported.
+Righ now only MySQL is supported (easily changeable).
 In your config/database.yml add this lines to your configuration:
 
     username: root
@@ -55,7 +55,8 @@ In your config/database.yml add this lines to your configuration:
 
 You can set the password for development in the docker-compose.yml file.
 The host can be setted to mysql since the container is being linked to the mysql container
-using this alias (docker created an entry in the /etc/hosts using this hostname associated to the real container ip)
+using this alias (docker creates an entry in the /etc/hosts of the container's application using this hostname 
+associated to the real db container ip)
 
 ### Developing
 
@@ -63,7 +64,7 @@ Go inside the generated vagrant folder and run
 
     $ vagrant up
 
-Vagrant will pull the ubuntu trusty image, the neccesary docker images and set the shared folder for
+Vagrant will pull the ubuntu trusty image, the necesary docker images and set the shared folder for
 development.
 
 Once finished, run:
@@ -73,17 +74,18 @@ Once finished, run:
     $ docker-compose up -d
 
 Since the folder is being shared with the virtual machine, you can run docker-compose using the docker-compose.yml file.
-This will build the container for your application, the db and the neccessary links for the containers.
+This will build the container for your application, the db and the links between the containers.
 
 The application folder will also be mounted inside the container, so you can work as you normally do locally and see the changes
-reflected inmediatly in the container.
+reflected immediately inside the container.
 
-Now you go inside the container and run the typical rails commands for interacting with your application.
-For getting the app container name run:
+Now you can go inside the container and run the typical rails commands for interacting with your application.
+
+For getting the app container's name run:
 
     $ docker ps
 
-This will show you the running container. Choose the one that's running your app and go inside by running:
+This will show you all the running containers. Choose the one that's running your app and go inside by running:
 
     $ docker exec -it CONTAINER_NAME bash
 
@@ -95,7 +97,7 @@ Now you can interact with your application
 
 And etc.
 
-The nginx container is mapping its port 80 with the port 80 of the guest host, and since we're declaring a private network in our Vagranfile
+The nginx container it's mapping its port 80 with the port 80 of the guest host, and since we're declaring a private network in our Vagranfile
 you can access your application by visiting htt://192.168.50.4.
 
 ## Contributing
