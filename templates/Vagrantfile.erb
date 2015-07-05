@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, path: "docker-compose-installer.sh"
 
   config.vm.provision "docker" do |d|
-    d.pull_images "mysql:5.7"
+    d.pull_images "<%= @db %>"
     d.pull_images "phusion/passenger-ruby22:0.9.15"
   end
 

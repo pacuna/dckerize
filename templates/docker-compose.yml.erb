@@ -1,16 +1,16 @@
 data:
-  image: mysql:5.7
+  image: <%= @db_name %>
   name: <%= @name %>-data
   environment:
-    - MYSQL_ROOT_PASSWORD=secretpassword
+    - <%= @db_password %>=secretpassword
   volumes:
-    - /var/lib/mysql
+    - /var/lib/<%= @db_name_for_data_volume %>
   command: true
-mysql:
-  image: mysql:5.7
+<%= @db_service_name %>:
+  image: <%= @db %>
   name: <%= @name %>-db
   environment:
-    - MYSQL_ROOT_PASSWORD=secretpassword
+    - <%= @db_password %>=secretpassword
   volumes_from:
     - data
 webapp:
@@ -21,6 +21,6 @@ webapp:
   environment:
     - PASSENGER_APP_ENV=development
   links:
-    - mysql:mysql
+    - <%= @db_service_name %>:<%= @db_service_name %>
   volumes:
     - /<%= @name %>:/home/app/<%= @name %>
