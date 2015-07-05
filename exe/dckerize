@@ -2,15 +2,23 @@
 
 require "dckerize"
 
-if ARGV[0].to_s != '' && ARGV[0] == 'up'
-  unless ARGV[1].to_s != ''
-    puts "A name for the application must be provided"
-    exit 0
-  end
-  name = ARGV[1]
-  generator = Dckerize::Generator.new(name)
-  generator.up
-else
-  puts "You should run 'dckrize up APP_NAME'"
+up_command = ARGV[0]
+app_name = ARGV[1]
+db_name = ARGV[2]
+
+if up_command.to_s != 'up' || app_name.to_s == '' || db_name.to_s == ''
+  puts 'Usage: dckerize up APP_NAME --database==[postgres|mysql]'
+  exit 0;
 end
+
+if db_name == '--database=postgres'
+  generator = Dckerize::Generator.new(app_name, 'postgres')
+elsif db_name == '--database=mysql'
+  generator = Dckerize::Generator.new(app_name, 'mysql')
+else
+  puts 'Usage: dckerize up APP_NAME --database==[postgres|mysql]'
+  exit 0;
+end
+generator.up
+
 
