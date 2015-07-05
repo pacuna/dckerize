@@ -11,7 +11,7 @@ You'll get
 
 - An ubuntu trusty image already provisioned with Docker and Docker Compose.
 - An nginx/passenger container environment for serving your application and all the necessary configurations.
-- A separate container running MySQL for your DB.
+- A separate container running MySQL/postgres for your DB.
 - A separate container for keeping your data using the data-only container pattern.
 
 ## Requirements
@@ -29,9 +29,10 @@ You need to have a Rails application already created.
 
 In the root of your application run:
 
-    $ dckerize up APP_NAME
+    $ dckerize up APP_NAME --database=[mysql|postgres]
 
-Where APP_NAME should be the same name of your application directory.
+Where APP_NAME should be the same name of your application and you must specify the database
+that you want to use.
 
 ### Generated Structure
 
@@ -46,17 +47,19 @@ should be declared in this file.
 
 ### DB configuration
 
-Righ now only MySQL is supported (easily changeable).
+## MySQL
 In your config/database.yml add these lines to your configuration:
 
     username: root
     password: <%= ENV['MYSQL_ENV_MYSQL_ROOT_PASSWORD'] %>
     host: mysql
 
-You can set the password for development in the docker-compose.yml file.
-The host can be setted to MySQL since the container is being linked to the MySQL container
-using this alias (docker creates an entry in the /etc/hosts of the container's application using this hostname 
-associated to the real db container IP)
+## Postgres
+In your config/database.yml add these lines to your configuration:
+
+    user: postgres
+    password: <%= ENV['POSTGRES_ENV_POSTGRES_PASSWORD'] %> 
+    host: postgres
 
 ### Developing
 
