@@ -5,19 +5,19 @@ Supercharged Rails development using Docker and Vagrant
 ## Description
 
 This gem gives you a good starting point for developing your Rails application using containers managed by Docker
-inside of a VM manage by Vagrant.
+inside of a VM managed by Vagrant.
 
-You'll get;
+You'll get
 
 - An ubuntu trusty image already provisioned with Docker and Docker Compose.
-- An nginx/passenger container environment for serving your application and all the neccesary configuration.
-- A separated container running MySQL for your DB.
-- A separated container for persisting your data using the data-only container pattern.
+- An nginx/passenger container environment for serving your application and all the necessary configurations.
+- A separate container running MySQL for your DB.
+- A separate container for keeping your data using the data-only container pattern.
 
 ## Requirements
 
-- ruby and bundler
-- vagrant >= 1.6
+- Ruby and Bundler
+- Vagrant >= 1.6
 
 ## Installation
 
@@ -31,7 +31,7 @@ In the root of your application run:
 
     $ dckerize up APP_NAME
 
-Where APP_NAME should be the same name of our application directory.
+Where APP_NAME should be the same name of your application directory.
 
 ### Generated Structure
 
@@ -42,21 +42,21 @@ Dckerize will generate:
 the necessary environment variables to passenger. Any extra environment variables passed to your Rails application
 should be declared in this file.
 - A Dockerfile for building your application.
-- A docker-compose.yml file for lifting your entire enviroment inside the VM.
+- A docker-compose.yml file for starting your entire enviroment inside the VM.
 
 ### DB configuration
 
 Righ now only MySQL is supported (easily changeable).
-In your config/database.yml add this lines to your configuration:
+In your config/database.yml add these lines to your configuration:
 
     username: root
     password: <%= ENV['MYSQL_ENV_MYSQL_ROOT_PASSWORD'] %>
     host: mysql
 
 You can set the password for development in the docker-compose.yml file.
-The host can be setted to mysql since the container is being linked to the mysql container
+The host can be setted to MySQL since the container is being linked to the MySQL container
 using this alias (docker creates an entry in the /etc/hosts of the container's application using this hostname 
-associated to the real db container ip)
+associated to the real db container IP)
 
 ### Developing
 
@@ -64,10 +64,10 @@ Go inside the generated vagrant folder and run
 
     $ vagrant up
 
-Vagrant will pull the ubuntu trusty image, the necesary docker images and set the shared folder for
+Vagrant will pull the ubuntu trusty image, the necessary docker images and set the shared folder for
 development.
 
-Once finished, run:
+Once finished, run
 
     $ vagrant ssh
     $ cd /APP_NAME
@@ -79,13 +79,13 @@ This will build the container for your application, the db and the links between
 The application folder will also be mounted inside the container, so you can work as you normally do locally and see the changes
 reflected immediately inside the container.
 
-Now you can go inside the container and run the typical rails commands for interacting with your application.
+Now you can go inside the container and run the typical Rails commands for interacting with your application.
 
-For getting the app container's name run:
+To get the app container's name run:
 
     $ docker ps
 
-This will show you all the running containers. Choose the one that's running your app and go inside by running:
+This will show you all the running containers. Choose the one that's running your app and go inside by executing:
 
     $ docker exec -it CONTAINER_NAME bash
 
@@ -97,8 +97,8 @@ Now you can interact with your application
 
 And etc.
 
-The nginx container it's mapping its port 80 with the port 80 of the guest host, and since we're declaring a private network in our Vagranfile
-you can access your application by visiting htt://192.168.50.4.
+The nginx container is mapping its port 80 with the port 80 of the guest host, and since we're declaring a private network in our Vagranfile
+you can access your application by visiting http://192.168.50.4.
 
 ## Contributing
 
