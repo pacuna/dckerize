@@ -74,7 +74,7 @@ Once finished, run
 
     $ vagrant ssh
     $ cd /APP_NAME
-    $ docker-compose up -d
+    $ sudo docker-compose up -d
 
 Since the folder is being shared with the virtual machine, you can run docker-compose using the docker-compose.yml file.
 This will build the container for your application, the db and the links between the containers.
