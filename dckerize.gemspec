@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Pablo Acuña"]
   spec.email         = ["pabloacuna88@gmail.com"]
 
-  spec.summary       = %q{Write a short summary, because Rubygems requires one.}
-  spec.homepage      = "https://github.com/pacuna"
+  spec.summary       = %q{Supercharged Rails environment using Docker and Vagrant.}
+  spec.homepage      = "https://github.com/pacuna/dckerize"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
