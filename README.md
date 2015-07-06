@@ -1,11 +1,11 @@
 # Dckerize
 
-Supercharged Rails development using Docker and Vagrant
+Supercharged Rails development using Docker and Vagrant 
 
 ## Description
 
 This gem gives you a good starting point for developing your Rails application using containers managed by Docker
-inside of a VM managed by Vagrant.
+inside of a VM managed by Vagrant (video demo at the end of the readme).
 
 You'll get
 
@@ -102,6 +102,10 @@ And etc.
 
 The nginx container is mapping its port 80 with the port 80 of the guest host, and since we're declaring a private network in our Vagranfile
 you can access your application by visiting http://192.168.50.4.
+
+## Video demo
+
+[![Dckerize](http://img.youtube.com/vi/X8IVAoBUtbs/0.jpg)](http://www.youtube.com/watch?v=X8IVAoBUtbs)
 
 ## Contributing
 
