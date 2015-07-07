@@ -1,4 +1,5 @@
 # Dckerize
+[![Gem Version](https://badge.fury.io/rb/dckerize.svg)](http://badge.fury.io/rb/dckerize)
 
 Supercharged Rails development using Docker and Vagrant 
 
