@@ -24,7 +24,7 @@ module Dckerize
       elsif db == 'postgres'
         @db                      = 'postgres'
         @db_password             = 'POSTGRES_PASSWORD'
-        @db_password_env         = 'POSTGRES_ENV_POSTGRES_PASSWORD;'
+        @db_password_env         = 'POSTGRES_ENV_POSTGRES_PASSWORD'
         @db_host_env             = 'POSTGRES_PORT_5432_TCP_ADDR'
         @db_name_for_data_volume = 'postgresql'
         @db_service_name         = 'postgres'
