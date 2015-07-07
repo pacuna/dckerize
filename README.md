@@ -104,6 +104,14 @@ And etc.
 The nginx container is mapping its port 80 with the port 80 of the guest host, and since we're declaring a private network in our Vagranfile
 you can access your application by visiting http://192.168.50.4.
 
+## TODO
+
+- Support for more services (redis, elasticsearch)
+- Support for other ruby/rails versions
+- More workflow examples
+
+
+
 ## Video demo
 
 [![Dckerize](http://img.youtube.com/vi/X8IVAoBUtbs/0.jpg)](http://www.youtube.com/watch?v=X8IVAoBUtbs)
