@@ -19,6 +19,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "docker" do |d|
     d.pull_images "<%= @db %>"
     d.pull_images "phusion/passenger-ruby22:0.9.15"
+    <% @extras.each do |extra| %>
+    d.pull_images "<%= extra.image %>"
+    <% end %>
   end
 
 
