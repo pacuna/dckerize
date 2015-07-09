@@ -245,7 +245,7 @@ describe Dckerize::Generator do
       end
 
       after(:each) do
-        # clean_files
+         clean_files
       end
 
       it 'should generate a vagrant directory' do

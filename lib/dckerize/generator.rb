@@ -46,7 +46,7 @@
 
     private
     def create_from_template(template_name, output_file)
-      template = ERB.new(File.read("#{templates}/#{template_name}"))
+      template = ERB.new(File.read("#{templates}/#{template_name}"), nil, '-')
       result = template.result(binding)
       File.open("#{output_file}", 'w') { |file| file.write(result) }
     end
