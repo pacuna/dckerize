@@ -1,6 +1,8 @@
 # Dckerize
 [![Gem Version](https://badge.fury.io/rb/dckerize.svg)](http://badge.fury.io/rb/dckerize)
 [![Build Status](https://travis-ci.org/pacuna/dckerize.svg?branch=master)](https://travis-ci.org/pacuna/dckerize)
+[![Code Climate](https://codeclimate.com/repos/559e7bd8695680340a00c55c/badges/a5600da57925df59a9d1/gpa.svg)](https://codeclimate.com/repos/559e7bd8695680340a00c55c/feed)
+[![Test Coverage](https://codeclimate.com/repos/559e7bd8695680340a00c55c/badges/a5600da57925df59a9d1/coverage.svg)](https://codeclimate.com/repos/559e7bd8695680340a00c55c/coverage)
 
 Supercharged Rails development using Docker and Vagrant 
 
