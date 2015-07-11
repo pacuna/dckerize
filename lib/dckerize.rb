@@ -1,6 +1,7 @@
 require "dckerize/version"
 require "dckerize/extra"
 require "dckerize/generator"
+require "dckerize/runner"
 require 'erb'
 require 'fileutils'
 

@@ -1,4 +1,5 @@
-  class Dckerize::Generator
+module Dckerize
+  class Generator
     attr_accessor :name, :db, :extras
     def initialize(name, db, extras = [])
       if db == 'mysql'
@@ -52,3 +53,5 @@
     end
 
   end
+
+end
