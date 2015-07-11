@@ -22,5 +22,13 @@ webapp:
     - PASSENGER_APP_ENV=development
   links:
     - <%= @db_service_name %>:<%= @db_service_name %>
+    <%- @extras.each do |extra| -%>
+    - <%= extra.service_name %>:<%= extra.alias %>
+    <%- end -%>
   volumes:
     - /<%= @name %>:/home/app/<%= @name %>
+<%- @extras.each do |extra| -%>
+<%= extra.service_name %>:
+  image: <%= extra.image %>
+  name: <%= @name %>-<%= extra.service_name %>
+<%- end -%>

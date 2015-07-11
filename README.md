@@ -15,6 +15,7 @@ You'll get
 - An nginx/passenger container environment for serving your application and all the necessary configurations.
 - A separate container running MySQL/postgres for your DB.
 - A separate container for keeping your data using the data-only container pattern.
+- Extras (elasticsearch for now)
 
 ## Requirements
 
@@ -29,9 +30,22 @@ You'll get
 
 You need to have a Rails application already created.
 
-In the root of your application run:
+General usage:
 
-    $ dckerize up APP_NAME --database=[mysql|postgres]
+    $ dckerize up APP_NAME --database=[mysql|postgres] [--extras=elasticsearch]
+
+So for example in the root of your application run:
+
+    $ dckerize up APP_NAME --database=mysql
+
+Or
+
+    $ dckerize up APP_NAME --database=postgres
+
+Or
+
+    $ dckerize up APP_NAME --database=postgres --extras=elasticsearch
+
 
 Where APP_NAME should be the same name of your application and you must specify the database
 that you want to use.
@@ -62,6 +76,15 @@ In your config/database.yml add these lines to your configuration:
     user: postgres
     password: <%= ENV['POSTGRES_ENV_POSTGRES_PASSWORD'] %> 
     host: postgres
+
+### Extras configuration
+
+#### Elasticsearch
+
+If you're using the elasticsearch-rails gem, you just need to specify the environment variables
+linked between the containers in your elasticsearch initializer and you'll be ready to go
+
+    ELASTICSEARCH_URL = ENV['ELASTICSEARCH_URL'] || ENV['ELASTICSEARCH_PORT_9200_TCP_ADDR']
 
 ### Developing
 
@@ -107,7 +130,7 @@ you can access your application by visiting http://192.168.50.4.
 
 ## TODO
 
-- Support for more services (redis, elasticsearch)
+- [x] Support for more services (redis, elasticsearch)
 - Support for other ruby/rails versions
 - More workflow examples
 
