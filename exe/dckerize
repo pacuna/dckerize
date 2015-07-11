@@ -2,4 +2,9 @@
 
 require "dckerize"
 
+begin
 Dckerize::Runner.new(ARGV).execute
+rescue Exception => e
+  puts e.message
+  exit 0
+end
