@@ -39,9 +39,11 @@ So for example in the root of your application run:
     $ dckerize up APP_NAME --database=mysql
 
 Or
+
     $ dckerize up APP_NAME --database=postgres
 
 Or
+
     $ dckerize up APP_NAME --database=postgres --extras=elasticsearch
 
 
