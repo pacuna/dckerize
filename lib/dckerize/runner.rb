@@ -27,7 +27,9 @@ module Dckerize
     def valid?
       # first option should always be up
       return false if @options[0] != 'up'
-
+      # db is mandatory
+      return false unless @options.grep(/--database=/).any?
+      # only valid options allowed
       @options[2..-1].each do |option|
         return false unless VALID_OPTIONS.include?(option)        
       end
