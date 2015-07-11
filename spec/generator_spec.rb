@@ -12,13 +12,6 @@ describe Dckerize::Generator do
     Dckerize::Generator.new('myapp', 'postgres', ['elasticsearch'])
   }
 
-  def clean_files
-    FileUtils.rm_rf('vagrant')
-    FileUtils.rm_rf('conf')
-    File.delete('Dockerfile')
-    File.delete('docker-compose.yml')
-  end
-
   describe '#initialize' do
     it 'should be possible to initialize it with a name and a db' do
       expect([generator_with_postgres.name, generator_with_postgres.db]).to match_array(['myapp', 'postgres'])

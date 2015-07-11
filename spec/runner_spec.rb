@@ -21,6 +21,10 @@ describe Dckerize::Runner do
     Dckerize::Runner.new(['up', 'myapp', '--database=mysql', '--extras=apachesolr'])
   }
 
+  after(:each) do
+    clean_files
+  end
+
   describe '#initialize' do
     context 'valid runner' do
       it 'should initialize correctly' do
