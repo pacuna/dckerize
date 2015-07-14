@@ -3,7 +3,7 @@ module Dckerize
 
     VALID_DBS     = ['mysql', 'postgres', 'mongo']
     VALID_EXTRAS  = ['elasticsearch', 'redis', 'memcached']
-    ERROR_MESSAGE = 'USAGE: dckerize up APP_NAME --database=[mysql|postgres|mongo] [--extras=elasticsearch|redis]'
+    ERROR_MESSAGE = 'USAGE: dckerize up APP_NAME --database=<mysql|postgres|mongo> [--extras=elasticsearch,redis,memcached]'
     def initialize(options)
       @options = options
     end
