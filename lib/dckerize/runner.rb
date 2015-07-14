@@ -1,8 +1,8 @@
 module Dckerize
   class Runner
 
-    VALID_OPTIONS = ['--database=mysql', '--database=postgres', '--extras=elasticsearch']
-    ERROR_MESSAGE = 'USAGE: dckerize up --database=[mysql|postgres] [--extras=elasticsearch]'
+    VALID_OPTIONS = ['--database=mysql', '--database=postgres', '--database=postgres', '--extras=elasticsearch']
+    ERROR_MESSAGE = 'USAGE: dckerize up --database=[mysql|postgres|mongo] [--extras=elasticsearch]'
     def initialize(options)
       @options = options
     end

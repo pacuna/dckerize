@@ -1,16 +1,20 @@
 data:
   image: <%= @db %>
   name: <%= @name %>-data
+  <%- if @db_password -%>
   environment:
     - <%= @db_password %>=secretpassword
+  <%- end -%>
   volumes:
-    - /var/lib/<%= @db_name_for_data_volume %>
+    - <%= @data_volume_dir %>
   command: true
 <%= @db_service_name %>:
   image: <%= @db %>
   name: <%= @name %>-db
+  <%- if @db_password -%>
   environment:
     - <%= @db_password %>=secretpassword
+  <%- end -%>
   volumes_from:
     - data
 webapp:
