@@ -10,6 +10,8 @@ module Dckerize
         'elasticsearch'
       elsif name == 'redis'
         'redis'
+      elsif name == 'memcached'
+        'memcached'
       end
     end
 
@@ -18,6 +20,8 @@ module Dckerize
         'elasticsearch'
       elsif name == 'redis'
         'redis'
+      elsif name == 'memcached'
+        'memcached'
       end
     end
 
@@ -26,6 +30,8 @@ module Dckerize
         'elasticsearch'
       elsif name == 'redis'
         'redis'
+      elsif name == 'memcached'
+        'memcached'
       end
     end
 
@@ -34,6 +40,8 @@ module Dckerize
         ['ELASTICSEARCH_PORT_9200_TCP_ADDR', 'ELASTICSEARCH_URL']
       elsif name == 'redis'
         ['REDIS_PORT_6379_TCP_ADDR']
+      elsif name == 'redis'
+        ['MEMCACHED_PORT_11211_TCP_ADDR']
       end
     end
   end

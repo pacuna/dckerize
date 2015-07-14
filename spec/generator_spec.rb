@@ -13,7 +13,7 @@ describe Dckerize::Generator do
   }
 
   let (:generator_with_several_extras) {
-    Dckerize::Generator.new('myapp', 'postgres', ['elasticsearch', 'redis'])
+    Dckerize::Generator.new('myapp', 'postgres', ['elasticsearch', 'redis', 'memcached'])
   }
 
   let (:generator_with_mongo) {
@@ -529,6 +529,13 @@ describe Dckerize::Generator do
           'd.pull_images "redis"'
           )
         end
+
+        it 'should pull the memcached container' do
+          expect(File.read('vagrant/Vagrantfile'))
+            .to include(
+          'd.pull_images "memcached"'
+          )
+        end
       end
 
       it 'should generate a docker-compose installer' do
@@ -576,6 +583,13 @@ describe Dckerize::Generator do
           'env REDIS_PORT_6379_TCP_ADDR;'
           )
         end
+
+        it 'should generate an entry for the memcached host' do
+          expect(File.read('conf/env.conf'))
+            .to include(
+          'env MEMCACHED_PORT_11211_TCP_ADDR;'
+          )
+        end
       end
 
       context 'describin docker-compose.yml file' do
@@ -599,6 +613,11 @@ describe Dckerize::Generator do
             .to include('redis:')
         end
 
+        it 'should generate a service named memcached' do
+          expect(File.read('docker-compose.yml'))
+            .to include('memcached:')
+        end
+
         it 'should generate a link between the application and a postgres container' do
           expect(File.read('docker-compose.yml'))
             .to include("postgres:postgres")
@@ -612,6 +631,11 @@ describe Dckerize::Generator do
         it 'should generate a link between the application and the redis container' do
           expect(File.read('docker-compose.yml'))
             .to include("redis:redis")
+        end
+
+        it 'should generate a link between the application and the memcached container' do
+          expect(File.read('docker-compose.yml'))
+            .to include("memcached:memcached")
         end
 
         it 'should generate a db password entry environment' do
