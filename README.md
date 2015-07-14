@@ -61,7 +61,7 @@ should be declared in this file.
 - A Dockerfile for building your application.
 - A docker-compose.yml file for starting your entire enviroment inside the VM.
 
-### DB configuration
+### Environment Variables Configuration
 
 ## MySQL
 In your config/database.yml add these lines to your configuration:
@@ -77,14 +77,18 @@ In your config/database.yml add these lines to your configuration:
     password: <%= ENV['POSTGRES_ENV_POSTGRES_PASSWORD'] %> 
     host: postgres
 
-### Extras configuration
+## Mongo
 
-#### Elasticsearch
+Host for Mongo
 
-If you're using the elasticsearch-rails gem, you just need to specify the environment variables
-linked between the containers in your elasticsearch initializer and you'll be ready to go
+    ENV['MONGO_PORT_27017_TCP_ADDR']
 
-    ELASTICSEARCH_URL = ENV['ELASTICSEARCH_URL'] || ENV['ELASTICSEARCH_PORT_9200_TCP_ADDR']
+
+## Elasticsearch
+
+Host for elasticsearch
+
+    ENV['ELASTICSEARCH_PORT_9200_TCP_ADDR']
 
 ### Developing
 
