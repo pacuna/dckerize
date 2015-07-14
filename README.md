@@ -13,7 +13,7 @@ You'll get
 
 - An ubuntu trusty image already provisioned with Docker and Docker Compose.
 - An nginx/passenger container environment for serving your application and all the necessary configurations.
-- A separate container running MySQL/postgres for your DB.
+- A separate container running MySQL/postgres/Mongo for your DB.
 - A separate container for keeping your data using the data-only container pattern.
 - Extras (elasticsearch for now)
 
@@ -32,7 +32,7 @@ You need to have a Rails application already created.
 
 General usage:
 
-    $ dckerize up APP_NAME --database=[mysql|postgres] [--extras=elasticsearch]
+    $ dckerize up APP_NAME --database=[mysql|postgres|mongo] [--extras=elasticsearch]
 
 So for example in the root of your application run:
 
