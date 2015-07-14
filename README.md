@@ -15,7 +15,7 @@ You'll get
 - An nginx/passenger container environment for serving your application and all the necessary configurations.
 - A separate container running MySQL/postgres/Mongo for your DB.
 - A separate container for keeping your data using the data-only container pattern.
-- Extras (elasticsearch for now)
+- Extras (elasticsearch and redis for now)
 
 ## Requirements
 
@@ -32,7 +32,7 @@ You need to have a Rails application already created.
 
 General usage:
 
-    $ dckerize up APP_NAME --database=[mysql|postgres|mongo] [--extras=elasticsearch]
+    $ dckerize up APP_NAME --database=[mysql|postgres|mongo] [--extras=elasticsearch,redis]
 
 So for example in the root of your application run:
 
@@ -45,6 +45,10 @@ Or
 Or
 
     $ dckerize up APP_NAME --database=postgres --extras=elasticsearch
+
+Or
+
+    $ dckerize up APP_NAME --database=mongo --extras=elasticsearch,redis
 
 
 Where APP_NAME should be the same name of your application and you must specify the database
@@ -89,6 +93,12 @@ Host for Mongo
 Host for elasticsearch
 
     ENV['ELASTICSEARCH_PORT_9200_TCP_ADDR']
+
+## Redis
+
+Host for redis
+
+    ENV['REDIS_PORT_6379_TCP_ADDR']
 
 ### Developing
 
