@@ -8,8 +8,12 @@ describe Dckerize::Generator do
     Dckerize::Generator.new('myapp', 'mysql')
   }
 
-  let (:generator_with_extras) {
+  let (:generator_with_one_extra) {
     Dckerize::Generator.new('myapp', 'postgres', ['elasticsearch'])
+  }
+
+  let (:generator_with_several_extras) {
+    Dckerize::Generator.new('myapp', 'postgres', ['elasticsearch', 'redis'])
   }
 
   let (:generator_with_mongo) {
@@ -331,11 +335,11 @@ describe Dckerize::Generator do
     end
   end
 
-  context 'generator with extras' do
+  context 'generator with one extra' do
     describe '#up' do
 
       before(:each) do
-        generator_with_extras.up
+        generator_with_one_extra.up
       end
 
       after(:each) do
@@ -393,7 +397,7 @@ describe Dckerize::Generator do
       end
 
       it 'should generate a site config for nginx' do
-        expect(File).to exist("conf/#{generator_with_postgres.name}.conf")
+        expect(File).to exist("conf/#{generator_with_one_extra.name}.conf")
       end
 
       context 'describing env file' do
@@ -448,6 +452,166 @@ describe Dckerize::Generator do
         it 'should generate a link between the application and the elasticsearch container' do
           expect(File.read('docker-compose.yml'))
             .to include("elasticsearch:elasticsearch")
+        end
+
+        it 'should generate a db password entry environment' do
+          expect(File.read('docker-compose.yml'))
+            .to include("POSTGRES_PASSWORD=secretpassword")
+        end
+
+        it 'should generate a correct service for data-only container' do
+          expect(File.read('docker-compose.yml'))
+            .to include("- /var/lib/postgresql")
+        end
+      end
+
+      it 'should generate a docker-compose file' do
+        expect(File).to exist("docker-compose.yml")
+      end
+    end
+  end
+
+  context 'generator with several extras' do
+    describe '#up' do
+
+      before(:each) do
+        generator_with_several_extras.up
+      end
+
+      after(:each) do
+         clean_files
+      end
+
+      it 'should generate a vagrant directory' do
+        expect(File.directory?('vagrant')).to eq true
+      end
+
+      it 'should generate a conf directory' do
+        expect(File.directory?('conf')).to eq true
+      end
+
+      context 'describing Vagrantfile' do
+        it 'should generate a Vagrantfile' do
+          expect(File).to exist('vagrant/Vagrantfile')
+        end
+
+        it 'should contain a synced_folder with the project name' do
+          expect(File.read('vagrant/Vagrantfile'))
+            .to include(
+          'config.vm.synced_folder "../", "/myapp"'
+          )
+        end
+
+        it 'should pull the latest nginx passenger container' do
+          expect(File.read('vagrant/Vagrantfile'))
+            .to include(
+          'd.pull_images "phusion/passenger-ruby22:0.9.15"'
+          )
+        end
+
+        it 'should pull the mysql container' do
+          expect(File.read('vagrant/Vagrantfile'))
+            .to include(
+          'd.pull_images "postgres"'
+          )
+        end
+
+        it 'should pull the elasticsearch container' do
+          expect(File.read('vagrant/Vagrantfile'))
+            .to include(
+          'd.pull_images "elasticsearch"'
+          )
+        end
+
+        it 'should pull the redis container' do
+          expect(File.read('vagrant/Vagrantfile'))
+            .to include(
+          'd.pull_images "redis"'
+          )
+        end
+      end
+
+      it 'should generate a docker-compose installer' do
+        expect(File).to exist('vagrant/docker-compose-installer.sh')
+      end
+
+      it 'should generate a Dockerfile' do
+        expect(File).to exist('Dockerfile')
+      end
+
+      it 'should generate a site config for nginx' do
+        expect(File).to exist("conf/#{generator_with_several_extras.name}.conf")
+      end
+
+      context 'describing env file' do
+        it 'should generate an entry for the password' do
+          expect(File.read('conf/env.conf'))
+            .to include('env POSTGRES_ENV_POSTGRES_PASSWORD;')
+        end
+
+        it 'should generate an entry for the dbhost' do
+          expect(File.read('conf/env.conf'))
+            .to include(
+          'env POSTGRES_PORT_5432_TCP_ADDR;'
+          )
+        end
+
+        it 'should generate an entry for the elasticsearch host' do
+          expect(File.read('conf/env.conf'))
+            .to include(
+          'env ELASTICSEARCH_PORT_9200_TCP_ADDR;'
+          )
+        end
+
+        it 'should generate an entry for the elasticsearch host' do
+          expect(File.read('conf/env.conf'))
+            .to include(
+          'env ELASTICSEARCH_URL;'
+          )
+        end
+
+        it 'should generate an entry for the redis host' do
+          expect(File.read('conf/env.conf'))
+            .to include(
+          'env REDIS_PORT_6379_TCP_ADDR;'
+          )
+        end
+      end
+
+      context 'describin docker-compose.yml file' do
+        it 'should generate a data image for postgres' do
+          expect(File.read('docker-compose.yml'))
+            .to include('image: postgres')
+        end
+
+        it 'should generate a service named postgres' do
+          expect(File.read('docker-compose.yml'))
+            .to include('postgres:')
+        end
+
+        it 'should generate a service named elasticsearch' do
+          expect(File.read('docker-compose.yml'))
+            .to include('elasticsearch:')
+        end
+
+        it 'should generate a service named redis' do
+          expect(File.read('docker-compose.yml'))
+            .to include('redis:')
+        end
+
+        it 'should generate a link between the application and a postgres container' do
+          expect(File.read('docker-compose.yml'))
+            .to include("postgres:postgres")
+        end
+
+        it 'should generate a link between the application and the elasticsearch container' do
+          expect(File.read('docker-compose.yml'))
+            .to include("elasticsearch:elasticsearch")
+        end
+
+        it 'should generate a link between the application and the redis container' do
+          expect(File.read('docker-compose.yml'))
+            .to include("redis:redis")
         end
 
         it 'should generate a db password entry environment' do

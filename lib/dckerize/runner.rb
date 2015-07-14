@@ -1,8 +1,9 @@
 module Dckerize
   class Runner
 
-    VALID_OPTIONS = ['--database=mysql', '--database=postgres', '--database=mongo', '--extras=elasticsearch']
-    ERROR_MESSAGE = 'USAGE: dckerize up APP_NAME --database=[mysql|postgres|mongo] [--extras=elasticsearch]'
+    VALID_DBS     = ['mysql', 'postgres', 'mongo']
+    VALID_EXTRAS  = ['elasticsearch', 'redis']
+    ERROR_MESSAGE = 'USAGE: dckerize up APP_NAME --database=[mysql|postgres|mongo] [--extras=elasticsearch|redis]'
     def initialize(options)
       @options = options
     end
@@ -29,9 +30,19 @@ module Dckerize
       return false if @options[0] != 'up'
       # db is mandatory
       return false unless @options.grep(/--database=/).any?
+
       # only valid options allowed
+      # for dbs and extras
       @options[2..-1].each do |option|
-        return false unless VALID_OPTIONS.include?(option)        
+        if option.split('=')[0] == '--database'
+          return false unless VALID_DBS.include?(option.split('=')[1])
+        elsif option.split('=')[0] == '--extras'
+          (option.split('=')[1]).split(',').each do |extra|
+            return false unless VALID_EXTRAS.include?(extra)
+          end
+        else
+          return false
+        end
       end
       true
     end
