@@ -40,7 +40,7 @@ module Dckerize
         ['ELASTICSEARCH_PORT_9200_TCP_ADDR', 'ELASTICSEARCH_URL']
       elsif name == 'redis'
         ['REDIS_PORT_6379_TCP_ADDR']
-      elsif name == 'redis'
+      elsif name == 'memcached'
         ['MEMCACHED_PORT_11211_TCP_ADDR']
       end
     end
