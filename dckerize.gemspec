@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Pablo Acuña"]
   spec.email         = ["pabloacuna88@gmail.com"]
 
-  spec.summary       = %q{Supercharged Rails environment using Docker and Vagrant.}
+  spec.summary       = %q{Supercharged Rails development using Docker containers.}
   spec.homepage      = "https://github.com/pacuna/dckerize"
   spec.license       = "MIT"
 
