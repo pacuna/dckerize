@@ -148,6 +148,10 @@ And etc.
 The nginx container is mapping its port 80 with the port 80 of the guest host, and since we're declaring a private network in our Vagranfile
 you can access your application by visiting http://192.168.50.4.
 
+### Mounting extra files to running containers
+
+Useful for adding sql dumps to your db container (not the data one). In this case you should have the file in your shared folder and send it from your host in vagrant to your running container. There are several ways to accomplish this, but the simplest way is described [here](http://stackoverflow.com/a/24805696).
+
 ## TODO
 
 - [x] Support for more services (redis, elasticsearch)
