@@ -7,7 +7,7 @@ data:
   <%- end -%>
   volumes:
     - <%= @data_volume_dir %>
-  command: true
+  command: "true"
 <%= @db_service_name %>:
   image: <%= @db %>
   name: <%= @name %>-db
