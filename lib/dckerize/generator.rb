@@ -39,8 +39,14 @@ module Dckerize
     end
 
     def up
-      FileUtils.mkdir_p('conf')
+
+      # create vagrant and conf folders only if don't exist
+      raise Dckerize::Runner::VAGRANT_FOLDER_EXISTS if File.exists?('vagrant') 
+      raise Dckerize::Runner::CONF_FOLDER_EXISTS if File.exists?('conf')
+      raise Dckerize::Runner::DOCKERFILE_EXISTS if File.exists?('Dockerfile')
+      raise Dckerize::Runner::DOCKERCOMPOSE_EXISTS if File.exists?('docker-compose.yml')
       FileUtils.mkdir_p('vagrant')
+      FileUtils.mkdir_p('conf')
 
       create_from_template('Vagrantfile.erb', 'vagrant/Vagrantfile')
       create_from_template('Dockerfile.erb', 'Dockerfile')

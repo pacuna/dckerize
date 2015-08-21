@@ -1,9 +1,13 @@
 module Dckerize
   class Runner
 
-    VALID_DBS     = ['mysql', 'postgres', 'mongo']
-    VALID_EXTRAS  = ['elasticsearch', 'redis', 'memcached']
-    ERROR_MESSAGE = 'USAGE: dckerize up APP_NAME --database=<mysql|postgres|mongo> [--extras=elasticsearch,redis,memcached]'
+    VALID_DBS             = ['mysql', 'postgres', 'mongo']
+    VALID_EXTRAS          = ['elasticsearch', 'redis', 'memcached']
+    ERROR_MESSAGE         = 'USAGE: dckerize up APP_NAME --database=<mysql|postgres|mongo> [--extras=elasticsearch,redis,memcached]'
+    VAGRANT_FOLDER_EXISTS = 'ERROR: vagrant folder already exists.'
+    CONF_FOLDER_EXISTS    = 'ERROR: conf folder already exists.'
+    DOCKERFILE_EXISTS     = 'ERROR: Dockerfile already exists.'
+    DOCKERCOMPOSE_EXISTS  = 'ERROR: docker-compose already exists.'
     def initialize(options)
       @options = options
     end

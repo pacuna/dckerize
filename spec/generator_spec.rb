@@ -26,6 +26,64 @@ describe Dckerize::Generator do
     end
   end
 
+  context 'file already present' do
+    describe 'vagrant folder already exitst' do
+      before(:each) do
+        FileUtils.mkdir_p('vagrant')
+      end
+
+      after(:each) do
+        clean_files
+      end
+
+      it 'should not create the folder and give notification' do
+        expect{ generator_with_postgres.up }.to raise_error Dckerize::Runner::VAGRANT_FOLDER_EXISTS
+      end
+    end
+
+    describe 'conf folder already exitst' do
+      before(:each) do
+        FileUtils.mkdir_p('conf')
+      end
+
+      after(:each) do
+        clean_files
+      end
+
+      it 'should not create the folder and give notification' do
+        expect{ generator_with_postgres.up }.to raise_error Dckerize::Runner::CONF_FOLDER_EXISTS
+      end
+    end
+
+    describe 'Dockerfile already exitst' do
+      before(:each) do
+        FileUtils.touch('Dockerfile')
+      end
+
+      after(:each) do
+        clean_files
+      end
+
+      it 'should not create the Dockerfile and give notification' do
+        expect{ generator_with_postgres.up }.to raise_error Dckerize::Runner::DOCKERFILE_EXISTS
+      end
+    end
+
+    describe 'docker-compose already exitst' do
+      before(:each) do
+        FileUtils.touch('docker-compose.yml')
+      end
+
+      after(:each) do
+        clean_files
+      end
+
+      it 'should not create the docker-compose file and give notification' do
+        expect{ generator_with_postgres.up }.to raise_error Dckerize::Runner::DOCKERCOMPOSE_EXISTS
+      end
+    end
+  end
+
   context 'generator with mongo' do
     describe '#up' do
 
