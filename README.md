@@ -151,6 +151,11 @@ you can access your application by visiting http://192.168.50.4.
 ### Mounting extra files to running containers
 
 Useful for adding sql dumps to your db container (not the data one). In this case you should have the file in your shared folder and send it from your host in vagrant to your running container. There are several ways to accomplish this, but the simplest way is described [here](http://stackoverflow.com/a/24805696).
+The fastest way for a running container:
+
+```
+docker exec -i <container_id> bash -c 'cat > /path/to/container/file' < /path/to/host/file/
+```
 
 ## TODO
 
