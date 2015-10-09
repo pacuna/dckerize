@@ -77,7 +77,7 @@ In your config/database.yml add these lines to your configuration:
 ## Postgres
 In your config/database.yml add these lines to your configuration:
 
-    user: postgres
+    username: postgres
     password: <%= ENV['POSTGRES_ENV_POSTGRES_PASSWORD'] %> 
     host: postgres
 
