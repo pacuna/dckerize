@@ -4,21 +4,20 @@ module Dckerize
     def initialize(name, db, extras = [])
       if db == 'mysql'
         @db              = 'mysql:5.7'
-        @db_password     = 'MYSQL_ROOT_PASSWORD'
+        @db_password     = 'MYSQL_PASSWORD'
+        @db_user         = 'MYSQL_USER'
+        @db_name         = 'MYSQL_DATABASE'
         @data_volume_dir = '/var/lib/mysql'
         @db_service_name = 'mysql'
         @db_port = 3306
       elsif db == 'postgres'
         @db              = 'postgres:9.5.3'
         @db_password     = 'POSTGRES_PASSWORD'
+        @db_user         = 'POSTGRES_USER'
+        @db_name         = 'POSTGRES_DB'
         @data_volume_dir = '/var/lib/postgresql'
         @db_service_name = 'postgres'
         @db_port = 5432
-      elsif db == 'mongo'
-        @db              = 'mongo'
-        @data_volume_dir = '/data/db'
-        @db_service_name = 'mongo'
-        @db_port = 27017
       end
       @name = name
 

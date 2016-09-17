@@ -27,7 +27,9 @@ services:
     image: <%= @db %>
     <%- if @db_password -%>
     environment:
-      - <%= @db_password %>=secretpassword
+      - <%= @db_password %>=mysecretpassword
+      - <%= @db_user %>=<%= @db_name %>
+      - <%= @db_name %>=<%= @db_name %>_development
     <%- end -%>
     volumes_from:
       - data
