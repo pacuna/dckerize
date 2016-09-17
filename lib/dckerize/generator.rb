@@ -4,23 +4,20 @@ module Dckerize
     def initialize(name, db, extras = [])
       if db == 'mysql'
         @db              = 'mysql:5.7'
-        @db_password     = 'MYSQL_ROOT_PASSWORD'
-        @db_password_env = 'MYSQL_ENV_MYSQL_ROOT_PASSWORD'
-        @db_host_env     = 'MYSQL_PORT_3306_TCP_ADDR'
+        @db_password     = 'MYSQL_ROOT_PASSWORD=mysecretpassword'
+        @db_user         = 'MYSQL_USER=root'
+        @db_name         = "MYSQL_DATABASE=#{name}_development"
         @data_volume_dir = '/var/lib/mysql'
         @db_service_name = 'mysql'
+        @db_port = 3306
       elsif db == 'postgres'
-        @db              = 'postgres'
-        @db_password     = 'POSTGRES_PASSWORD'
-        @db_password_env = 'POSTGRES_ENV_POSTGRES_PASSWORD'
-        @db_host_env     = 'POSTGRES_PORT_5432_TCP_ADDR'
+        @db              = 'postgres:9.5.3'
+        @db_password     = 'POSTGRES_PASSWORD=mysecretpassword'
+        @db_user         = "POSTGRES_USER=#{name}"
+        @db_name         = "POSTGRES_DB=#{name}_development"
         @data_volume_dir = '/var/lib/postgresql'
         @db_service_name = 'postgres'
-      elsif db == 'mongo'
-        @db              = 'mongo'
-        @db_host_env     = 'MONGO_PORT_27017_TCP_ADDR'
-        @data_volume_dir = '/data/db'
-        @db_service_name = 'mongo'
+        @db_port = 5432
       end
       @name = name
 
@@ -40,20 +37,14 @@ module Dckerize
 
     def up
 
-      # create vagrant and conf folders only if don't exist
-      raise Dckerize::Runner::VAGRANT_FOLDER_EXISTS if File.exists?('vagrant') 
-      raise Dckerize::Runner::CONF_FOLDER_EXISTS if File.exists?('conf')
-      raise Dckerize::Runner::DOCKERFILE_EXISTS if File.exists?('Dockerfile')
+      raise Dckerize::Runner::DOCKERFILE_EXISTS if File.exists?('Dockerfile.development')
       raise Dckerize::Runner::DOCKERCOMPOSE_EXISTS if File.exists?('docker-compose.yml')
-      FileUtils.mkdir_p('vagrant')
-      FileUtils.mkdir_p('conf')
 
-      create_from_template('Vagrantfile.erb', 'vagrant/Vagrantfile')
-      create_from_template('Dockerfile.erb', 'Dockerfile')
-      create_from_template('site.conf.erb', "conf/#{@name}.conf")
-      create_from_template('env.conf.erb', "conf/env.conf")
+      create_from_template('Dockerfile.erb', 'Dockerfile.development')
+      create_from_template('webapp.conf.erb', "webapp.conf")
+      create_from_template('setup.sh.erb', "setup.sh")
+      create_from_template('rails-env.conf.erb', "rails-env.conf")
       create_from_template('docker-compose.yml.erb', "docker-compose.yml")
-      create_from_template('docker-compose-installer.sh.erb', "vagrant/docker-compose-installer.sh")
     end
 
     private
@@ -61,6 +52,9 @@ module Dckerize
       template = ERB.new(File.read("#{templates}/#{template_name}"), nil, '-')
       result = template.result(binding)
       File.open("#{output_file}", 'w') { |file| file.write(result) }
+
+      # add execution permissions for setup.sh
+      system "chmod +x #{output_file}" if output_file == 'setup.sh'
     end
 
   end

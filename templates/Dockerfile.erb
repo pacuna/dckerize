@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby22:0.9.15
+FROM phusion/passenger-ruby23:0.9.19
 
 # Set correct environment variables.
 ENV HOME /root
@@ -6,30 +6,42 @@ ENV HOME /root
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
 
+# Additional packages: we are adding the netcat package so we can
+# make pings to the database service
+RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" netcat
+
+# Enable Nginx and Passenger
+RUN rm -f /etc/service/nginx/down
+
+# Add virtual host entry for the application. Make sure
+# the file is in the correct path
+RUN rm /etc/nginx/sites-enabled/default
+ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
+
+# In case we need some environmental variables in Nginx. Make sure
+# the file is in the correct path
+ADD rails-env.conf /etc/nginx/main.d/rails-env.conf
+
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+# Install gems: it's better to build an independent layer for the gems
+# so they are cached during builds unless Gemfile changes
+WORKDIR /tmp
+ADD Gemfile /tmp/
+ADD Gemfile.lock /tmp/
+RUN bundle install -j4
+
+# Copy application into the container and use right permissions: passenger
+# uses the app user for running the application
+RUN mkdir /home/app/webapp
+COPY . /home/app/webapp
+RUN usermod -u 1000 app
+RUN chown -R app:app /home/app/webapp
+WORKDIR /home/app/webapp
+
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Active nginx
-RUN rm -f /etc/service/nginx/down
-
-# Copy the nginx template for configuration and preserve environment variables
-RUN rm /etc/nginx/sites-enabled/default
-ADD conf/<%= @name %>.conf /etc/nginx/sites-enabled/<%= @name %>.conf
-ADD conf/env.conf /etc/nginx/main.d/env.conf
-
-# Create the folder for the project and set the workdir
-RUN mkdir /home/app/<%= @name %>
-WORKDIR /home/app/<%= @name %>
-
-# Copy the project inside the container and run bundle install
-COPY Gemfile /home/app/<%= @name %>/
-COPY Gemfile.lock /home/app/<%= @name %>/
-RUN bundle install
-COPY . /home/app/<%= @name %>
-
-# Set permissions for the passenger user for this app
-RUN chown -R app:app /home/app/<%= @name %>
-
-# Expose the port
-EXPOSE 80
