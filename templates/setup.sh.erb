@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "Waiting <%= @db %> to start..."
+
+while ! nc -z <%= @db %> <%= @db_port %>; do
+  sleep 0.1
+done
+
+echo "<%= @db %> started"
+
+bin/rails db:setup

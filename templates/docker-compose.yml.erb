@@ -1,38 +1,48 @@
-data:
-  image: <%= @db %>
-  name: <%= @name %>-data
-  <%- if @db_password -%>
-  environment:
-    - <%= @db_password %>=secretpassword
+version: '2'
+services:
+  webapp_setup:
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+    depends_on:
+      - <%= @db %>
+    environment:
+      - PASSENGER_APP_ENV=development
+    entrypoint: ./setup.sh
+  webapp:
+    container_name: <%= @name %>
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+    depends_on:
+      - <%= @db %>
+      - webapp_setup
+    ports:
+      - "80:80"
+    environment:
+      - PASSENGER_APP_ENV=development
+    volumes:
+      - .:/home/app/webapp
+  <%- @extras.each do |extra| -%>
+  <%= extra.service_name %>:
+    image: <%= extra.image %>
+    name: <%= @name %>-<%= extra.service_name %>
   <%- end -%>
-  volumes:
-    - <%= @data_volume_dir %>
-  command: "true"
-<%= @db_service_name %>:
-  image: <%= @db %>
-  name: <%= @name %>-db
-  <%- if @db_password -%>
-  environment:
-    - <%= @db_password %>=secretpassword
-  <%- end -%>
-  volumes_from:
-    - data
-webapp:
-  build: .
-  name: <%= @name %>
-  ports:
-    - "80:80"
-  environment:
-    - PASSENGER_APP_ENV=development
-  links:
-    - <%= @db_service_name %>:<%= @db_service_name %>
-    <%- @extras.each do |extra| -%>
-    - <%= extra.service_name %>:<%= extra.alias %>
+
+  data:
+    image: <%= @db %>
+    <%- if @db_password -%>
+    environment:
+      - <%= @db_password %>=secretpassword
     <%- end -%>
-  volumes:
-    - /<%= @name %>:/home/app/<%= @name %>
-<%- @extras.each do |extra| -%>
-<%= extra.service_name %>:
-  image: <%= extra.image %>
-  name: <%= @name %>-<%= extra.service_name %>
-<%- end -%>
+    volumes:
+      - <%= @data_volume_dir %>
+    command: "true"
+  <%= @db_service_name %>:
+    image: <%= @db %>
+    <%- if @db_password -%>
+    environment:
+      - <%= @db_password %>=secretpassword
+    <%- end -%>
+    volumes_from:
+      - data
