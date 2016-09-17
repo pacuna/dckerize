@@ -37,7 +37,7 @@ module Dckerize
 
     def up
 
-      raise Dckerize::Runner::DOCKERFILE_EXISTS if File.exists?('Dockerfile')
+      raise Dckerize::Runner::DOCKERFILE_EXISTS if File.exists?('Dockerfile.development')
       raise Dckerize::Runner::DOCKERCOMPOSE_EXISTS if File.exists?('docker-compose.yml')
 
       create_from_template('Dockerfile.erb', 'Dockerfile.development')
