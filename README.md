@@ -26,6 +26,10 @@ You'll get
 
 ## Usage
 
+### Quickstart
+
+[![Dckerize](http://img.youtube.com/vi/PGlPKbHIOBc/0.jpg)](http://www.youtube.com/watch?v=PGlPKbHIOBc "Dckerize Quickstart")
+
 You need to have a Rails 5 application already created. It can be useful if you
 create your app using the `--database` flag so you can have the driver already configured.
 
