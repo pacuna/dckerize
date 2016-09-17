@@ -44,6 +44,7 @@ module Dckerize
       create_from_template('Dockerfile.erb', 'Dockerfile.development')
       create_from_template('webapp.conf.erb', "webapp.conf")
       create_from_template('setup.sh.erb', "setup.sh")
+      create_from_template('rails-env.conf.erb', "rails-env.conf")
       create_from_template('docker-compose.yml.erb', "docker-compose.yml")
     end
 
@@ -52,6 +53,9 @@ module Dckerize
       template = ERB.new(File.read("#{templates}/#{template_name}"), nil, '-')
       result = template.result(binding)
       File.open("#{output_file}", 'w') { |file| file.write(result) }
+
+      # add execution permissions for setup.sh
+      system "chmod +x #{output_file}" if output_file == 'setup.sh'
     end
 
   end
