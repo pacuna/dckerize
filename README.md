@@ -10,7 +10,7 @@ This gem gives you a good starting point to containerize your Rails 5 applicatio
 
 You'll get
 
-- An nginx/passenger container environment for serving your application and all the necessary configurations.
+- An nginx/passenger container environment for servin your application and all the necessary configurations. It also mounts the application into the container so you can make development changes and not having to rebuild the image.
 - A separate container running MySQL or PostgreSQL
 - A separate container for keeping your data using the data-only container pattern.
 - Extras (elasticsearch, redis and memcached for now)
@@ -71,6 +71,7 @@ In your config/database.yml add these lines to your configuration:
     password: mysecretpassword
     host: postgres
 
+You can change these values in the `docker-compose.yml` file.
 
 Once you have your database configured, you can run:
 
