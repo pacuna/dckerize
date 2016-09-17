@@ -28,8 +28,8 @@ services:
     <%- if @db_password -%>
     environment:
       - <%= @db_password %>=mysecretpassword
-      - <%= @db_user %>=<%= @db_name %>
-      - <%= @db_name %>=<%= @db_name %>_development
+      - <%= @db_user %>=<%= @name %>
+      - <%= @db_name %>=<%= @name %>_development
     <%- end -%>
     volumes_from:
       - data
