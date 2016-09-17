@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.development
     depends_on:
-      - <%= @db %>
+      - <%= @db_service_name %>
     environment:
       - PASSENGER_APP_ENV=development
     entrypoint: ./setup.sh
@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: Dockerfile.development
     depends_on:
-      - <%= @db %>
+      - <%= @db_service_name %>
       - webapp_setup
     ports:
       - "80:80"
@@ -31,10 +31,6 @@ services:
 
   data:
     image: <%= @db %>
-    <%- if @db_password -%>
-    environment:
-      - <%= @db_password %>=secretpassword
-    <%- end -%>
     volumes:
       - <%= @data_volume_dir %>
     command: "true"
