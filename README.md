@@ -67,7 +67,7 @@ In your config/database.yml add these lines to your configuration:
 ### Postgres
 In your config/database.yml add these lines to your configuration:
 
-    username: postgres
+    username: APP_NAME
     password: mysecretpassword
     host: postgres
 
