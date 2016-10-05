@@ -78,6 +78,25 @@ Once you have your database configured, you can run:
 ```
 $ docker-compose up --build
 ```
+## Tips
+
+### Redirect logging to STDOUT
+
+Add to you `config/application.rb` file:
+
+    config.logger = ActiveSupport::Logger.new(STDOUT)
+
+### Run tasks
+
+You can run tasks directly using Docker Compose run command:
+
+    docker-compose run --rm webapp bin/rails db:migrate
+    docker-compose run --rm webapp bin/rails g scaffold users name email password
+    
+Or you can open a session inside the container and run your commands there:
+
+    docker-compose exec webapp bash
+    # bin/rails db:migrate
 
 ## Contributing
 
