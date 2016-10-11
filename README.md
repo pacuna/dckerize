@@ -80,6 +80,15 @@ $ docker-compose up --build
 ```
 ## Tips
 
+### Create a new Rails app with Docker
+
+    $ docker run -it --rm --user "$(id -u):$(id -g)" -v "$PWD":/usr/src/app -w /usr/src/app rails rails new --skip-bundle --database=postgresql webapp
+    
+    $ cd webapp
+    
+    $ docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app ruby:2.3 bundle install
+    
+    
 ### Redirect logging to STDOUT
 
 Add to you `config/application.rb` file:
