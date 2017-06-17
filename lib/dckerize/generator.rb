@@ -20,7 +20,7 @@ module Dckerize
 
       create_from_template('Dockerfile.erb', 'Dockerfile.development')
       create_from_template('webapp.conf.erb', "webapp.conf")
-      create_from_template('wait-for-postgres.sh.erb', "wait-for-postgres.sh.erb")
+      create_from_template('wait-for-postgres.sh.erb', "wait-for-postgres.sh")
       create_from_template('rails-env.conf.erb', "rails-env.conf")
       create_from_template('docker-compose.yml.erb', "docker-compose.yml")
     end

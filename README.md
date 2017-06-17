@@ -11,14 +11,13 @@ This gem gives you a good starting point to containerize your Rails 5 applicatio
 You'll get
 
 - An nginx/passenger container environment for your application and all the necessary configurations. It also mounts the application into the container so you can make development changes and not having to rebuild the image.
-- A separate container running MySQL or PostgreSQL
+- A separate container running PostgreSQL
 - A separate container for keeping your data using the data-only container pattern.
-- Extras (elasticsearch, redis and memcached for now)
 
 ## Requirements
 
-- Docker >= 1.12
-- Docker Compose >= 1.8
+- Docker >= 1.13
+- Docker Compose >= 1.13
 
 ## Installation
 
@@ -28,48 +27,30 @@ You'll get
 
 ### Quickstart
 
-[![Dckerize](http://img.youtube.com/vi/PGlPKbHIOBc/0.jpg)](http://www.youtube.com/watch?v=PGlPKbHIOBc "Dckerize Quickstart")
-
 You need to have a Rails 5 application already created. It can be useful if you
 create your app using the `--database` flag so you can have the driver already configured.
 
 General usage:
 
-    $ dckerize up APP_NAME --database=<mysql|postgres> [--extras=elasticsearch,redis,memcached]
+    $ dckerize up APP_NAME
 
 So for example in the root of your application run:
 
-    $ dckerize up APP_NAME --database=mysql
+    $ dckerize up APP_NAME
 
-Or
-
-    $ dckerize up APP_NAME --database=postgres
-
-Or
-
-    $ dckerize up APP_NAME --database=postgres --extras=elasticsearch,redis
-
-Where APP_NAME should be the same name of your application and you must specify the database
-that you want to use.
+Where APP_NAME should be the same name of your application.
 
 ## Database Configuration
 
 After running the `up` command you have to configure your database credentials
 in the following way:
 
-### MySQL
-In your config/database.yml add these lines to your configuration:
-
-    username: root
-    password: mysecretpassword
-    host: mysql
-
 ### Postgres
-In your config/database.yml add these lines to your configuration:
+In your config/database.yml add these lines to your configuration (replace [APP_NAME] with your application name)
 
-    username: APP_NAME
+    username: [APP_NAME]
     password: mysecretpassword
-    host: postgres
+    host: [APP_NAME]-db
 
 You can change these values in the `docker-compose.yml` file.
 
