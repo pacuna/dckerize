@@ -2,23 +2,11 @@ require 'spec_helper'
 describe Dckerize::Runner do
 
   let(:runner) {
-    Dckerize::Runner.new(['up', 'myapp', '--database=mysql', '--extras=elasticsearch'])
-  }
-
-  let(:valid_runner_without_extras) {
-    Dckerize::Runner.new(['up', 'myapp', '--database=mysql'])
+    Dckerize::Runner.new(['up', 'myapp'])
   }
 
   let(:invalid_runner_without_up) {
-    Dckerize::Runner.new(['something', 'myapp', '--database=mysql', '--extras=elasticsearch'])
-  }
-
-  let(:invalid_runner_without_db) {
-    Dckerize::Runner.new(['up', 'myapp', '--extras=elasticsearch'])
-  }
-
-  let(:invalid_runner_with_unaccepted_options) {
-    Dckerize::Runner.new(['up', 'myapp', '--database=mysql', '--extras=apachesolr'])
+    Dckerize::Runner.new(['something', 'myapp'])
   }
 
   after(:each) do
@@ -30,10 +18,6 @@ describe Dckerize::Runner do
       it 'should initialize correctly' do
         expect(runner).to be_valid
       end
-
-      it 'should be valid without extras' do
-        expect(valid_runner_without_extras).to be_valid
-      end
     end
 
     context 'invalid runner' do
@@ -41,13 +25,6 @@ describe Dckerize::Runner do
         expect(invalid_runner_without_up).to_not be_valid
       end
 
-      it 'should be invalid without db' do
-        expect(invalid_runner_without_db).to_not be_valid
-      end
-
-      it 'should be invalid unaccepted options' do
-        expect(invalid_runner_with_unaccepted_options).to_not be_valid
-      end
     end
   end
 
@@ -63,9 +40,6 @@ describe Dckerize::Runner do
         expect{ invalid_runner_without_up.execute }.to raise_error Dckerize::Runner::ERROR_MESSAGE
       end
 
-      it 'should raise error without unnacepted options' do
-        expect{ invalid_runner_with_unaccepted_options.execute }.to raise_error Dckerize::Runner::ERROR_MESSAGE
-      end
     end
   end
 end
