@@ -27,66 +27,27 @@ You'll get
 
 ### Quickstart
 
-You need to have a Rails 5 application already created. It can be useful if you
-create your app using the `--database` flag so you can have the driver already configured.
+    $ rails new myapp --database=postgresl
+    $ cd myapp
+    $ dckerize up myapp
 
-General usage:
+Configure your database credentials (you can check these in your docker compose file):
 
-    $ dckerize up APP_NAME
-
-So for example in the root of your application run:
-
-    $ dckerize up APP_NAME
-
-Where APP_NAME should be the same name of your application.
-
-## Database Configuration
-
-After running the `up` command you have to configure your database credentials
-in the following way:
-
-### Postgres
-In your config/database.yml add these lines to your configuration (replace [APP_NAME] with your application name)
-
-    username: [APP_NAME]
+    username: myapp
     password: mysecretpassword
-    host: [APP_NAME]-db
+    host: myapp-db
 
-You can change these values in the `docker-compose.yml` file.
+Dckerize will use the name of your application to create the database host and user names.
+It also will create the development database by default (myapp_development in this case).
 
 Once you have your database configured, you can run:
 
 ```
-$ docker-compose up --build
+$ docker-compose build
+$ docker-compose up
 ```
-## Tips
 
-### Create a new Rails app with Docker
-
-    $ docker run -it --rm --user "$(id -u):$(id -g)" -v "$PWD":/usr/src/app -w /usr/src/app rails rails new --skip-bundle --database=postgresql webapp
-    
-    $ cd webapp
-    
-    $ docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app ruby:2.3 bundle install
-    
-    
-### Redirect logging to STDOUT
-
-Add to you `config/application.rb` file:
-
-    config.logger = ActiveSupport::Logger.new(STDOUT)
-
-### Run tasks
-
-You can run tasks directly using Docker Compose run command:
-
-    docker-compose run --rm webapp bin/rails db:migrate
-    docker-compose run --rm webapp bin/rails g scaffold users name email password
-    
-Or you can open a session inside the container and run your commands there:
-
-    docker-compose exec webapp bash
-    # bin/rails db:migrate
+And that's it. Now you can go to localhost and see your dockerized Rails application.
 
 ## Contributing
 
