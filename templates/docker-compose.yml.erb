@@ -21,7 +21,6 @@ services:
       - <%= @name %>-db
     environment:
       - PASSENGER_APP_ENV=development
-      - RAILS_LOG_TO_STDOUT=true
     command: ["./wait-for-postgres.sh", "<%= @name %>-db", "bin/rails", "db:migrate"]
   <%= @name %>:
     build:
@@ -34,5 +33,6 @@ services:
       - "80:80"
     environment:
       - PASSENGER_APP_ENV=development
+      - RAILS_LOG_TO_STDOUT=true
     volumes:
       - .:/home/app/webapp
