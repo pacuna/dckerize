@@ -27,7 +27,7 @@ You'll get
 
 ### Quickstart
 
-    $ rails new myapp --database=postgresl
+    $ rails new myapp --database=postgresql
     $ cd myapp
     $ dckerize up myapp
 
