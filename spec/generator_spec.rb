@@ -79,7 +79,7 @@ describe Dckerize::Generator do
 
         it 'should generate a correct service for data-only container' do
           expect(File.read('docker-compose.yml'))
-            .to include("- /var/lib/postgresql")
+            .to include("/var/lib/postgresql")
         end
       end
 
