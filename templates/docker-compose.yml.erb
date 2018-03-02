@@ -1,18 +1,13 @@
-version: '2'
+version: '3'
 services:
   <%= @name %>-db:
-    image: postgres:9.5.3
+    image: postgres:10.2
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_USER=<%= @name %>
       - POSTGRES_DB=<%= @name %>_development
-    volumes_from:
-      - <%= @name %>-data
-  <%= @name %>-data:
-    image: postgres:9.5.3
     volumes:
-      - /var/lib/postgresql
-    command: "true"
+      - data-volume:/var/lib/postgresql
   <%= @name %>-migrate:
     build:
       context: .
@@ -36,3 +31,5 @@ services:
       - RAILS_LOG_TO_STDOUT=true
     volumes:
       - .:/home/app/webapp
+volumes:
+  data-volume:
