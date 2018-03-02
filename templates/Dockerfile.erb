@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby24:0.9.27
+FROM phusion/passenger-ruby24:0.9.29
 
 # Set correct environment variables.
 ENV HOME /root
@@ -7,7 +7,7 @@ ENV HOME /root
 CMD ["/sbin/my_init"]
 
 # Additional packages
-RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" postgresql-client
+RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" postgresql-client tzdata
 
 # Enable Nginx and Passenger
 RUN rm -f /etc/service/nginx/down
@@ -33,9 +33,7 @@ ADD rails-env.conf /etc/nginx/main.d/rails-env.conf
 # Copy application into the container and use right permissions: passenger
 # uses the app user for running the application
 RUN mkdir /home/app/webapp
-COPY . /home/app/webapp
-RUN usermod -u 1000 app
-RUN chown -R app:app /home/app/webapp
+COPY --chown=app:app . /home/app/webapp
 WORKDIR /home/app/webapp
 
 # Clean up APT when done.
